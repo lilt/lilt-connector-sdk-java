@@ -1,0 +1,1675 @@
+openapi: 3.0.0
+info:
+  description: |
+    This document describes the Plugin API for Lilt's Connector platform. The
+    Plugin API is intented to be used by developers who wish to build
+    integrations into their desired systems. The purpose of this API is to
+    enable content transfer and status monitoring for localization projects.
+
+    - Read more about the concepts and workflows in the
+      [user guide](/docs/api/v1.0).
+    - Test the API interactively via [Swagger UI](/api/v1.0/ui).
+  title: Lilt Connector Plugin API
+  version: "1.0"
+servers:
+- url: https://connectors-admin.lilt.com/api/v1.0
+- url: http://localhost:5000/api/v1.0
+security:
+- BearerAuth: []
+tags:
+- description: Register a new connector installation.
+  name: Registration
+- description: A Job represents a single localization order.
+  name: Jobs
+- description: Translations are the completed translations for a Job.
+  name: Translations
+- description: The settings to use for new jobs.
+  name: Settings
+- description: A credit transaction represents a credit change.
+  name: Credit Transactions
+- description: An organization represents a lilt customer.
+  name: Organization
+paths:
+  /register:
+    post:
+      description: |
+        This endpoint is used to register a connector organization
+        in preparation to handle credits management.
+      operationId: services.api.registration.register_credits_based_organization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/New_Organization_Options'
+      responses:
+        "204":
+          description: |
+            Upon success a response with an empty body is returned.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Bad Request response.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Server Error response.
+      security: []
+      summary: Register a new Connectors Organization
+      tags:
+      - Registration
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /jobs:
+    get:
+      operationId: services.api.jobs.get_jobs
+      parameters:
+      - description: the query limit
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 25
+          example: 25
+          type: integer
+        style: form
+      - description: where to start
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          default: 0
+          example: 0
+          type: integer
+        style: form
+      - description: how to order the returned results
+        explode: true
+        in: query
+        name: order
+        required: false
+        schema:
+          default: asc
+          enum:
+          - asc
+          - desc
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jobs_Response'
+          description: The jobs response.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Bad Request response.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Unauthorized response.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Forbidden response.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Server Error response.
+      summary: Retrieve a list of Connector Jobs.
+      tags:
+      - Jobs
+      x-accepts:
+      - application/json
+    post:
+      description: |
+        The general workflow for a job is as follows.
+
+        1. Create a job.
+        1. Add files to a job.
+        1. Start the job.
+        1. Poll for translation completion.
+        1. Download the translated files.
+      operationId: services.api.jobs.create_job
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/New_Job_Options'
+            x-nullable: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job_Response'
+          description: The job response.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Bad Request response.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Unauthorized response.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Forbidden response.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Server Error response.
+      summary: Create a Connector Job.
+      tags:
+      - Jobs
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /jobs/{id}:
+    delete:
+      operationId: services.api.jobs.delete_job_by_id
+      parameters:
+      - description: The Job ID.
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 12345
+          type: integer
+        style: simple
+      responses:
+        "204":
+          description: |
+            Upon success a response with an empty body is returned.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Bad Request response.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Unauthorized response.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Forbidden response.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Not Found response.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Server Error response.
+      summary: Delete a Connector Job.
+      tags:
+      - Jobs
+      x-accepts:
+      - application/json
+    get:
+      operationId: services.api.jobs.get_job_by_id
+      parameters:
+      - description: The Job ID.
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 12345
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job_Response'
+          description: The job response.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Bad Request response.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Unauthorized response.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Forbidden response.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Not Found response.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Server Error response.
+      summary: Retrieve a Connector Job.
+      tags:
+      - Jobs
+      x-accepts:
+      - application/json
+    put:
+      description: |
+        Update a job to change the status or error message.
+      operationId: services.api.jobs.update_job
+      parameters:
+      - description: The Job ID.
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 12345
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Update_Job_Options'
+            x-nullable: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job_Response'
+          description: The job response.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Bad Request response.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Unauthorized response.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Forbidden response.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Server Error response.
+      summary: Update a Connector Job.
+      tags:
+      - Jobs
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /jobs/{id}/files:
+    post:
+      description: |
+        Add files to a job to submit them for translation.
+      operationId: services.api.jobs.add_file
+      parameters:
+      - description: The Job ID.
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 12345
+          type: integer
+        style: simple
+      - description: The file name.
+        explode: true
+        in: query
+        name: name
+        required: true
+        schema:
+          example: sample.txt
+          type: string
+        style: form
+      - description: The source language.
+        explode: true
+        in: query
+        name: srclang
+        required: false
+        schema:
+          default: en-US
+          type: string
+        style: form
+      - description: |
+          The target language. Many target languages can be added to a source
+          file. To add more than one target language pass in the trglang query
+          parameter multiple times. For example: ?trglang=fr-FR&trglang=es-ES.
+        explode: true
+        in: query
+        name: trglang
+        required: true
+        schema:
+          items:
+            example: es
+            type: string
+          type: array
+        style: form
+      - description: The due date for the file as an ISO-8601 string.
+        explode: true
+        in: query
+        name: due
+        required: false
+        schema:
+          example: 2022-05-20T04:09:39Z
+          format: date-time
+          type: string
+        style: form
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              format: binary
+              type: string
+      responses:
+        "204":
+          description: |
+            Upon success a response with an empty body is returned.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Bad Request response.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Unauthorized response.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Forbidden response.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Not Found response.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Server Error response.
+      summary: Add a file to a Job.
+      tags:
+      - Jobs
+      x-content-type: application/octet-stream
+      x-accepts:
+      - application/json
+  /jobs/{id}/start:
+    post:
+      description: |
+        Start a job once all of the source files have been added. Use the Job ID
+        to poll for completion to ensure everything has been well received by
+        Lilt.
+      operationId: services.api.jobs.start_job
+      parameters:
+      - description: The Job ID.
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 12345
+          type: integer
+        style: simple
+      responses:
+        "204":
+          description: |
+            Upon success a response with an empty body is returned. Use the job
+            ID to poll for subsequent status changes.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Bad Request response.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Unauthorized response.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Forbidden response.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Not Found response.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Server Error response.
+      summary: Start a Job.
+      tags:
+      - Jobs
+      x-accepts:
+      - application/json
+  /jobs/{id}/sync:
+    post:
+      description: |
+        Checks for updates to the translations. Use the Job ID to poll for
+        successful completion of the sync. When the sync is complete the
+        translations endpoint can be used to view the translation status for the
+        job.
+      operationId: services.api.jobs.sync_job
+      parameters:
+      - description: The Job ID.
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 12345
+          type: integer
+        style: simple
+      responses:
+        "204":
+          description: |
+            Upon success a response with an empty body is returned. Use the job
+            ID to poll for subsequent status changes.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Bad Request response.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Unauthorized response.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Forbidden response.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Not Found response.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Server Error response.
+      summary: Start a Sync.
+      tags:
+      - Jobs
+      x-accepts:
+      - application/json
+  /jobs/translations:
+    get:
+      operationId: services.api.jobs.get_job_translations
+      parameters:
+      - description: the query limit
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 25
+          example: 25
+          type: integer
+        style: form
+      - description: where to start
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          default: 0
+          example: 0
+          type: integer
+        style: form
+      - description: how to order the returned results
+        explode: true
+        in: query
+        name: order
+        required: false
+        schema:
+          default: asc
+          enum:
+          - asc
+          - desc
+          type: string
+        style: form
+      - description: Weather it should filter out completed translations
+        explode: true
+        in: query
+        name: filter_out_completed
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      - description: Filter by selected translation workflow
+        explode: true
+        in: query
+        name: lilt_translation_workflow
+        required: false
+        schema:
+          enum:
+          - HITL
+          - MT
+          example: HITL
+          type: string
+        style: form
+      - description: Filter by list of order level statuses
+        explode: true
+        in: query
+        name: order_status
+        required: false
+        schema:
+          example: "complete,draft"
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jobs_Response'
+          description: The jobs response.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Bad Request response.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Unauthorized response.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Forbidden response.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Server Error response.
+      summary: Retrieve a list of Translations with their Job information.
+      tags:
+      - Jobs
+      x-accepts:
+      - application/json
+  /translations:
+    get:
+      operationId: services.api.deliveries.get_deliveries_by_job_id
+      parameters:
+      - description: the query limit
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 25
+          example: 25
+          type: integer
+        style: form
+      - description: where to start
+        explode: true
+        in: query
+        name: start
+        required: false
+        schema:
+          default: 0
+          example: 0
+          type: integer
+        style: form
+      - description: The Job ID.
+        explode: true
+        in: query
+        name: job_id
+        required: false
+        schema:
+          example: 12345
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Translations_Response'
+          description: The translations response.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Bad Request response.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Unauthorized response.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Forbidden response.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Not Found response.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Server Error response.
+      summary: Retrieve a list of Translations.
+      tags:
+      - Translations
+      x-accepts:
+      - application/json
+  /translations/{id}:
+    get:
+      operationId: services.api.deliveries.get_delivery_by_id
+      parameters:
+      - description: The ID.
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 12345
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Translation_Response'
+          description: The translation response.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Bad Request response.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Unauthorized response.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Forbidden response.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Not Found response.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Server Error response.
+      summary: Retrieve a Translation.
+      tags:
+      - Translations
+      x-accepts:
+      - application/json
+    put:
+      operationId: services.api.deliveries.update_delivery
+      parameters:
+      - description: The ID.
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 12345
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Update_Delivery_Options'
+            x-nullable: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Translation_Response'
+          description: The translation response.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Bad Request response.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Unauthorized response.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Forbidden response.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Not Found response.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Server Error response.
+      summary: Update a Translation.
+      tags:
+      - Translations
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /translations/{id}/download:
+    get:
+      operationId: services.api.deliveries.download_delivery
+      parameters:
+      - description: The ID.
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 12345
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/octet-stream:
+              schema:
+                format: bytes
+                type: string
+          description: The translation contents.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Bad Request response.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Unauthorized response.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Forbidden response.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Not Found response.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Server Error response.
+      summary: Download a Translation.
+      tags:
+      - Translations
+      x-accepts:
+      - application/json
+      - application/octet-stream
+  /translations/{id}/complete:
+    post:
+      operationId: services.api.deliveries.complete_delivery
+      parameters:
+      - description: The ID.
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 12345
+          type: integer
+        style: simple
+      responses:
+        "204":
+          description: |
+            Upon success a response with an empty body is returned.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Bad Request response.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Unauthorized response.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Forbidden response.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Not Found response.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Server Error response.
+      summary: Complete a Translation.
+      tags:
+      - Translations
+      x-accepts:
+      - application/json
+  /translations/{id}/source:
+    get:
+      operationId: services.api.deliveries.download_delivery_source
+      parameters:
+      - description: The ID.
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 12345
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/octet-stream:
+              schema:
+                format: bytes
+                type: string
+          description: The translation source contents.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Bad Request response.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Unauthorized response.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Forbidden response.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Not Found response.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Server Error response.
+      summary: Download a Translation Source.
+      tags:
+      - Translations
+      x-accepts:
+      - application/json
+      - application/octet-stream
+  /translations/{id}/preview:
+    get:
+      operationId: services.api.deliveries.preview_delivery
+      parameters:
+      - description: The ID.
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          example: 12345
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Preview_Translation_Response_inner'
+                title: Preview Translation Response
+                type: array
+          description: The translation response.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Bad Request response.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Unauthorized response.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Forbidden response.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Not Found response.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Server Error response.
+      summary: Get a Translation's source to target mapping.
+      tags:
+      - Translations
+      x-accepts:
+      - application/json
+  /settings:
+    get:
+      operationId: services.api.settings.get_settings
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Settings_Response'
+          description: The settings response.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Bad Request response.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Unauthorized response.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Forbidden response.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Server Error response.
+      summary: Retrieve the settings.
+      tags:
+      - Settings
+      x-accepts:
+      - application/json
+    put:
+      operationId: services.api.settings.update_settings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Settings_Response'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Settings_Response'
+          description: The settings response.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Bad Request response.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Unauthorized response.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Forbidden response.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Server Error response.
+      summary: Update the settings.
+      tags:
+      - Settings
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /credit-transaction:
+    post:
+      operationId: services.api.credit_transaction.create_credit_transaction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/services_api_credit_transaction_create_credit_transaction_request'
+      responses:
+        "204":
+          description: |
+            Upon success a response with an empty body is returned.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Bad Request response.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Unauthorized response.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Forbidden response.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Server Error response.
+      security: []
+      summary: |
+        Create a credit transaction. Request is expected to contain credits
+        information encoded in jwt_token payload. Request encoded should have
+        info for instant_translation_credits_change value,
+        verified_translation_credits_change value, source_metadata which
+        contains any identifying information to attach to the transaction,
+        email for the user starting the transaction, and optionally lilt_token
+        for the connector configuration.
+      tags:
+      - Credit Transactions
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /organization:
+    get:
+      operationId: services.api.organization.get_organization_record
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization_Response'
+          description: The settings response.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Bad Request response.
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Unauthorized response.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Forbidden response.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error_Response'
+          description: The Server Error response.
+      summary: |
+        Get information about the organization based on lilt_token
+      tags:
+      - Organization
+      x-accepts:
+      - application/json
+components:
+  schemas:
+    Organization_Response:
+      example:
+        instantTranslationCredits: 0.8008281904610115
+        name: name
+        verifiedTranslationCredits: 6.027456183070403
+      properties:
+        name:
+          description: Name of the organization
+          type: string
+        instantTranslationCredits:
+          description: |
+            The amount of credits the organization has remaining
+          type: number
+        verifiedTranslationCredits:
+          description: |
+            The amount of credits the organization has remaining
+          type: number
+      title: Organization Response
+      type: object
+    New_Organization_Options:
+      properties:
+        name:
+          description: Name to identify the organization by
+          type: string
+        email:
+          description: Contact email for the owner of the organization
+          type: string
+        registrationMetadata:
+          description: |
+            Relevant information for the organization being created
+          type: object
+        instantTranslationCredits:
+          description: |
+            Amount of credits the organization starts with, usable for
+            instant translation jobs
+          type: integer
+        verifiedTranslationCredits:
+          description: |
+            Amount of credits the organization starts with, usable for
+            verified translation jobs
+          type: integer
+      title: New Organization Options
+      type: object
+    Translation_Response:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        trgLocale: trgLocale
+        name: name
+        srcLocale: srcLocale
+        id: 1
+        trgLang: trgLang
+        srcLang: srcLang
+        status: import_complete
+        errorMsg: errorMsg
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        status:
+          description: |
+            This value tracks the status of the delivery.
+          enum:
+          - import_complete
+          - import_failed
+          - export_complete
+          - export_failed
+          - mt_complete
+          - mt_failed
+          - plugin_complete
+          type: string
+        srcLang:
+          type: string
+        srcLocale:
+          type: string
+        trgLang:
+          type: string
+        trgLocale:
+          type: string
+        errorMsg:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - id
+      - name
+      - srcLang
+      - status
+      - trgLang
+      - updatedAt
+      title: Translation Response
+      type: object
+    Translations_Response:
+      example:
+        limit: 0
+        start: 6
+        results:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          trgLocale: trgLocale
+          name: name
+          srcLocale: srcLocale
+          id: 1
+          trgLang: trgLang
+          srcLang: srcLang
+          status: import_complete
+          errorMsg: errorMsg
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          trgLocale: trgLocale
+          name: name
+          srcLocale: srcLocale
+          id: 1
+          trgLang: trgLang
+          srcLang: srcLang
+          status: import_complete
+          errorMsg: errorMsg
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        limit:
+          type: integer
+        start:
+          type: integer
+        results:
+          items:
+            $ref: '#/components/schemas/Translation_Response'
+          type: array
+      title: Translations Response
+      type: object
+    Update_Delivery_Options:
+      properties:
+        status:
+          description: |
+            This value tracks the status of the delivery.
+          enum:
+          - import_complete
+          - import_failed
+          - export_complete
+          - export_failed
+          - mt_complete
+          - mt_failed
+          - plugin_complete
+          type: string
+        error_message:
+          type: string
+      title: Update Delivery Options
+      type: object
+    Error_Response:
+      example:
+        error: Bad Request
+        message: Missing query parameter 'name'
+        status: 400
+      properties:
+        error:
+          example: Bad Request
+          type: string
+        message:
+          example: Missing query parameter 'name'
+          type: string
+        status:
+          example: 400
+          type: integer
+      title: Error Response
+      type: object
+    services_api_credit_transaction_create_credit_transaction_request:
+      properties:
+        payload:
+          type: string
+      type: object
+    Settings_Response:
+      example:
+        project_name_template: "{project_prefix} {today}"
+        lilt_translation_workflow: INSTANT
+        project_prefix: project_prefix
+      properties:
+        project_prefix:
+          description: A string value to include in the Project name.
+          type: string
+        project_name_template:
+          description: |
+            The template string to use when generating Project names.
+
+            The available template options are:
+
+            - **today** - Today's date. Formatted as YYYY-MM-DD.
+            - **trglocale** - The target locale for the given project.
+            - **filename** - The name of the current file being uploaded.
+            - **project_prefix** - The project_prefix value provided in the
+              configuration.
+            - **project_name** - The project_name value assigned to the file in
+              the code.
+            - **connector_id** - The Connector ID.
+            - **connector_type** - The Connector Type (e.g. "xtm", "salesforce").
+          example: "{project_prefix} {today}"
+          type: string
+        lilt_translation_workflow:
+          description: |
+            This indicates the translation workflow being used. UNKNOWN will only be
+            displayed in exceptional cases.
+          enum:
+          - INSTANT
+          - VERIFIED
+          - UNKNOWN
+          type: string
+      title: Settings Response
+      type: object
+    Jobs_Response:
+      example:
+        limit: 0
+        start: 6
+        results:
+        - targetLanguages:
+          - targetLanguages
+          - targetLanguages
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          dueDate: 2000-01-23T04:56:07.000+00:00
+          orderStatus: Draft
+          id: 1
+          translationWorkflow: INSTANT
+          project_prefix: project_prefix
+          status: draft
+          errorMsg: errorMsg
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - targetLanguages:
+          - targetLanguages
+          - targetLanguages
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          dueDate: 2000-01-23T04:56:07.000+00:00
+          orderStatus: Draft
+          id: 1
+          translationWorkflow: INSTANT
+          project_prefix: project_prefix
+          status: draft
+          errorMsg: errorMsg
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        limit:
+          type: integer
+        start:
+          type: integer
+        results:
+          items:
+            $ref: '#/components/schemas/Job_Response'
+          type: array
+      title: Jobs Response
+      type: object
+    Job_Response:
+      example:
+        targetLanguages:
+        - targetLanguages
+        - targetLanguages
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        dueDate: 2000-01-23T04:56:07.000+00:00
+        orderStatus: Draft
+        id: 1
+        translationWorkflow: INSTANT
+        project_prefix: project_prefix
+        status: draft
+        errorMsg: errorMsg
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: integer
+        project_prefix:
+          type: string
+        status:
+          description: |
+            This value tracks the async processing status of the job.
+          enum:
+          - draft
+          - queued
+          - processing
+          - complete
+          - canceled
+          - failed
+          type: string
+        orderStatus:
+          description: |
+            This value tracks the completion status of the translation order.
+          enum:
+          - Draft
+          - Started
+          - In Progress
+          - Delivered
+          - Complete
+          - Needs Attention
+          type: string
+        targetLanguages:
+          items:
+            type: string
+          type: array
+        translationWorkflow:
+          description: |
+            This indicates the translation workflow being used. UNKNOWN will only be
+            displayed in exceptional cases.
+          enum:
+          - INSTANT
+          - VERIFIED
+          - UNKNOWN
+          type: string
+        dueDate:
+          format: date-time
+          type: string
+        errorMsg:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      title: Job Response
+      type: object
+    Update_Job_Options:
+      properties:
+        status:
+          description: |
+            This value tracks the async processing status of the job.
+          enum:
+          - draft
+          - queued
+          - processing
+          - complete
+          - canceled
+          - failed
+          type: string
+        error_message:
+          type: string
+        source_word_count:
+          type: number
+      title: Update Job Options
+      type: object
+    New_Job_Options:
+      properties:
+        project_prefix:
+          description: A string value to include in the Project name.
+          type: string
+        project_name_template:
+          description: |
+            The template string to use when generating Project names.
+
+            The available template options are:
+
+            - **today** - Today's date. Formatted as YYYY-MM-DD.
+            - **trglocale** - The target locale for the given project.
+            - **filename** - The name of the current file being uploaded.
+            - **project_prefix** - The project_prefix value provided in the
+              configuration.
+            - **project_name** - The project_name value assigned to the file in
+              the code.
+            - **connector_id** - The Connector ID.
+            - **connector_type** - The Connector Type (e.g. "xtm", "salesforce").
+          example: "{project_prefix} {today}"
+          type: string
+        lilt_translation_workflow:
+          enum:
+          - INSTANT
+          - VERIFIED
+          type: string
+        lilt_default_due_date:
+          description: |
+            The due date to use when creating Lilt Jobs/Projects if no specific due
+            date is specified on the file level.
+          type: string
+        lilt_target_languages:
+          description: |
+            The list of target languages to use for the new job. The values provided
+            should be present in the target_memories section of the configuration.
+          items:
+            type: string
+          type: array
+        handle_credit_transactions:
+          default: false
+          description: |
+            If true, credit transactions will be handled by the connector. If false,
+            no credit transactions will be created for the job.
+          type: boolean
+        source_word_count:
+          description: |
+            The source word count to use when creating credits transaction for
+            instant transaltion jobs.
+          type: number
+      title: New Job Options
+      type: object
+    Preview_Translation_Response_inner:
+      example:
+        source: source
+        key: key
+        target: target
+      properties:
+        key:
+          description: The key of the content field.
+          type: string
+        source:
+          description: The source content of the field.
+          type: string
+        target:
+          description: The target content of the field.
+          type: string
+      type: object
+  securitySchemes:
+    BearerAuth:
+      scheme: bearer
+      type: http
+      x-bearerInfoFunc: services.api.auth.api_key_auth
+
