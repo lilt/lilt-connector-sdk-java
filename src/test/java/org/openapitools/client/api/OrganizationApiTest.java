@@ -13,6 +13,25 @@
 
 package org.openapitools.client.api;
 
+/*-
+ * #%L
+ * com.lilt.connectors.client:lilt-connector-sdk-java
+ * %%
+ * Copyright (C) 2015 - 2025 Lilt
+ * %%
+ * Lilt Client Library License – Source Supplied, Permissive, Attribution, Noncommercial
+ * 
+ * THE LILT CLIENT LIBRARY SOFTWARE OR WORK (AS DEFINED BELOW) IS PROVIDED UNDER
+ * THE TERMS OF THIS ("LICENSE"). THE WORK IS PROTECTED BY COPYRIGHT AND/OR OTHER
+ * APPLICABLE LAW. ANY USE OF THE WORK OTHER THAN AS AUTHORIZED UNDER THIS LICENSE
+ * OR COPYRIGHT LAW IS PROHIBITED. BY EXERCISING ANY RIGHTS TO THE WORK PROVIDED
+ * HERE, YOU ACCEPT AND AGREE TO BE BOUND BY THE TERMS OF THIS LICENSE. TO THE
+ * EXTENT THIS LICENSE MAY BE CONSIDERED TO BE A CONTRACT, THE LICENSOR GRANTS YOU
+ * THE RIGHTS CONTAINED HERE IN CONSIDERATION OF YOUR ACCEPTANCE OF SUCH TERMS AND
+ * CONDITIONS.
+ * #L%
+ */
+
 import LiltConnectorSDK.ApiException;
 import org.openapitools.client.model.ErrorResponse;
 import org.openapitools.client.model.OrganizationResponse;
