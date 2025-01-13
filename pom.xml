@@ -1,38 +1,66 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.openapitools</groupId>
-    <artifactId>openapi-java-client</artifactId>
+    <groupId>com.lilt.connectors.client</groupId>
+    <artifactId>lilt-connector-sdk-java</artifactId>
     <packaging>jar</packaging>
-    <name>openapi-java-client</name>
+    <name>${project.groupId}:${project.artifactId}</name>
     <version>1.0</version>
-    <url>https://github.com/openapitools/openapi-generator</url>
-    <description>OpenAPI Java</description>
+    <url>https://github.com/lilt/lilt-connector-sdk-java</url>
+    <description>Lilt Connector Plugin API Client</description>
     <scm>
-        <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
-        <developerConnection>scm:git:git@github.com:openapitools/openapi-generator.git</developerConnection>
-        <url>https://github.com/openapitools/openapi-generator</url>
+        <connection>scm:git:git@github.com:lilt/lilt-connector-sdk-java.git</connection>
+        <developerConnection>scm:git:git@github.com:lilt/lilt-connector-sdk-java.git</developerConnection>
+        <url>https://github.com/lilt/lilt-connector-sdk-java</url>
     </scm>
-
+    <inceptionYear>2015</inceptionYear>
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>Lilt packages on GitHub</name>
+            <url>https://maven.pkg.github.com/lilt/lilt-java</url>
+        </repository>
+    </distributionManagement>
     <licenses>
         <license>
-            <name>Unlicense</name>
-            <url>http://unlicense.org</url>
+            <name>Lilt Client Library License</name>
+            <url>license.md</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
-
+    <organization>
+        <name>Lilt</name>
+        <url>http://www.lilt.com</url>
+    </organization>
     <developers>
         <developer>
-            <name>OpenAPI-Generator Contributors</name>
-            <email>team@openapitools.org</email>
-            <organization>OpenAPITools.org</organization>
-            <organizationUrl>http://openapitools.org</organizationUrl>
+            <name>Volodymyr Hadomskyi</name>
+            <email>volodymyr.hadomskyi@lilt.com</email>
+            <organization>${project.organization.name}</organization>
+            <organizationUrl>${project.organization.url}</organizationUrl>
         </developer>
     </developers>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>2.4.0</version>
+                <configuration>
+                    <licenseName>lilt_client_library_license</licenseName>
+                    <licenseResolver>file://${project.basedir}/src/license</licenseResolver>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>first</id>
+                        <goals>
+                            <goal>update-file-header</goal>
+                        </goals>
+                        <phase>process-sources</phase>
+                    </execution>
+                </executions>
+            </plugin>
            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -229,6 +257,38 @@
 
                 </java>
               </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>3.2.4</version>
+                <configuration>
+                    <useAgent>false</useAgent>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <configuration>
+                            <signer>bc</signer>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.6.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <tokenAuth>true</tokenAuth>
+                    <autoPublish>true</autoPublish>
+                    <waitUntil>published</waitUntil>
+                </configuration>
             </plugin>
         </plugins>
     </build>
