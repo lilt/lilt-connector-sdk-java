@@ -3,24 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.lilt.connectors.client</groupId>
     <artifactId>lilt-connector-sdk-java</artifactId>
-    <packaging>jar</packaging>
-    <name>${project.groupId}:${project.artifactId}</name>
     <version>1.0</version>
-    <url>https://github.com/lilt/lilt-connector-sdk-java</url>
-    <description>Lilt Connector Plugin API Client</description>
-    <scm>
-        <connection>scm:git:git@github.com:lilt/lilt-connector-sdk-java.git</connection>
-        <developerConnection>scm:git:git@github.com:lilt/lilt-connector-sdk-java.git</developerConnection>
-        <url>https://github.com/lilt/lilt-connector-sdk-java</url>
-    </scm>
-    <inceptionYear>2015</inceptionYear>
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>Lilt packages on GitHub</name>
-            <url>https://maven.pkg.github.com/lilt/lilt-java</url>
-        </repository>
-    </distributionManagement>
+    <packaging>jar</packaging>
     <licenses>
         <license>
             <name>Lilt Client Library License</name>
@@ -28,19 +12,36 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>Lilt Connector Plugin API Client</description>
+    <url>https://github.com/lilt/lilt-connector-sdk-java</url>
+    <inceptionYear>2015</inceptionYear>
+
     <organization>
         <name>Lilt</name>
         <url>http://www.lilt.com</url>
     </organization>
     <developers>
         <developer>
-            <name>Volodymyr Hadomskyi</name>
-            <email>volodymyr.hadomskyi@lilt.com</email>
+            <name>Nicholas Chiu</name>
+            <email>nicholas.chiu@lilt.com</email>
             <organization>${project.organization.name}</organization>
             <organizationUrl>${project.organization.url}</organizationUrl>
         </developer>
     </developers>
 
+    <scm>
+        <connection>scm:git:git@github.com:lilt/lilt-connector-sdk-java.git</connection>
+        <developerConnection>scm:git:git@github.com:lilt/lilt-connector-sdk-java.git</developerConnection>
+        <url>https://github.com/lilt/lilt-connector-sdk-java</url>
+    </scm>
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>Lilt packages on GitHub</name>
+            <url>https://maven.pkg.github.com/lilt/lilt-java</url>
+        </repository>
+    </distributionManagement>
     <build>
         <plugins>
             <plugin>
@@ -301,7 +302,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>3.2.1</version>
+                        <version>1.5</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
