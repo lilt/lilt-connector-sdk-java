@@ -31,6 +31,12 @@ jobs:
           server-username: MAVEN_USERNAME
           server-password: MAVEN_CENTRAL_TOKEN
 
+      - name: Import GPG key
+        run: |
+          echo "${{ secrets.MAVEN_GPG_KEY }}" | base64 --decode > private_key.gpg
+          gpg --batch --import private_key.gpg
+          rm private_key.gpg
+
       - name: Build
         run: mvn -B package --file pom.xml
 
