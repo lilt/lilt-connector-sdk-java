@@ -32,13 +32,13 @@ jobs:
           server-password: MAVEN_CENTRAL_TOKEN
 
       - name: Build
-        run: mvn -B package --file pom.xml -X
+        run: mvn -B package --file pom.xml
 
       - name: Prepare Maven environnement for deployment to Sonatype
         run: export MAVEN_OPTS="--add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.desktop/java.awt.font=ALL-UNNAMED"
 
       - name: Publish
-        run: mvn clean deploy
+        run: mvn clean deploy -X
 
   github-release:
     name: >-
