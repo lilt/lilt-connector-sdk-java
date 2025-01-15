@@ -33,7 +33,7 @@ jobs:
 
       - name: Import GPG key
         run: |
-          echo "${{ secrets.MAVEN_GPG_KEY }}" | base64 --decode > private_key.gpg
+          echo "${{ secrets.MAVEN_GPG_KEY }}" > private_key.gpg
           gpg --batch --import private_key.gpg
           rm private_key.gpg
 
