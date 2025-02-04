@@ -1,8 +1,8 @@
-# openapi-java-client
+# lilt-connector-sdk-java
 
 Lilt Connector Plugin API
 - API version: 1.0
-  - Build date: 2025-01-05T09:10:14.232589379Z[Etc/UTC]
+  - Build date: 2025-02-04T05:51:00.272504138Z[Etc/UTC]
   - Generator version: 7.6.0-SNAPSHOT
 
 This document describes the Plugin API for Lilt's Connector platform. The
@@ -47,8 +47,8 @@ Add this dependency to your project's POM:
 
 ```xml
 <dependency>
-  <groupId>org.openapitools</groupId>
-  <artifactId>openapi-java-client</artifactId>
+  <groupId>com.lilt.connectors</groupId>
+  <artifactId>lilt-connector-sdk-java</artifactId>
   <version>1.0</version>
   <scope>compile</scope>
 </dependency>
@@ -60,12 +60,12 @@ Add this dependency to your project's build file:
 
 ```groovy
   repositories {
-    mavenCentral()     // Needed if the 'openapi-java-client' jar has been published to maven central.
-    mavenLocal()       // Needed if the 'openapi-java-client' jar has been published to the local maven repo.
+    mavenCentral()     // Needed if the 'lilt-connector-sdk-java' jar has been published to maven central.
+    mavenLocal()       // Needed if the 'lilt-connector-sdk-java' jar has been published to the local maven repo.
   }
 
   dependencies {
-     implementation "org.openapitools:openapi-java-client:1.0"
+     implementation "com.lilt.connectors:lilt-connector-sdk-java:1.0"
   }
 ```
 
@@ -79,7 +79,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/openapi-java-client-1.0.jar`
+* `target/lilt-connector-sdk-java-1.0.jar`
 * `target/lib/*.jar`
 
 ## Getting Started
@@ -89,11 +89,11 @@ Please follow the [installation](#installation) instruction and execute the foll
 ```java
 
 // Import classes:
-import LiltConnectorSDK.ApiClient;
-import LiltConnectorSDK.ApiException;
-import LiltConnectorSDK.Configuration;
-import LiltConnectorSDK.models.*;
-import org.openapitools.client.api.CreditTransactionsApi;
+import com.lilt.connectors.ApiClient;
+import com.lilt.connectors.ApiException;
+import com.lilt.connectors.Configuration;
+import com.lilt.connectors.models.*;
+import com.lilt.connectors.api.CreditTransactionsApi;
 
 public class Example {
   public static void main(String[] args) {

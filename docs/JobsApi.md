@@ -26,12 +26,12 @@ Add files to a job to submit them for translation.
 ### Example
 ```java
 // Import classes:
-import LiltConnectorSDK.ApiClient;
-import LiltConnectorSDK.ApiException;
-import LiltConnectorSDK.Configuration;
-import LiltConnectorSDK.auth.*;
-import LiltConnectorSDK.models.*;
-import org.openapitools.client.api.JobsApi;
+import com.lilt.connectors.ApiClient;
+import com.lilt.connectors.ApiException;
+import com.lilt.connectors.Configuration;
+import com.lilt.connectors.auth.*;
+import com.lilt.connectors.models.*;
+import com.lilt.connectors.api.JobsApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -107,12 +107,12 @@ The general workflow for a job is as follows.  1. Create a job. 1. Add files to 
 ### Example
 ```java
 // Import classes:
-import LiltConnectorSDK.ApiClient;
-import LiltConnectorSDK.ApiException;
-import LiltConnectorSDK.Configuration;
-import LiltConnectorSDK.auth.*;
-import LiltConnectorSDK.models.*;
-import org.openapitools.client.api.JobsApi;
+import com.lilt.connectors.ApiClient;
+import com.lilt.connectors.ApiException;
+import com.lilt.connectors.Configuration;
+import com.lilt.connectors.auth.*;
+import com.lilt.connectors.models.*;
+import com.lilt.connectors.api.JobsApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -176,12 +176,12 @@ Delete a Connector Job.
 ### Example
 ```java
 // Import classes:
-import LiltConnectorSDK.ApiClient;
-import LiltConnectorSDK.ApiException;
-import LiltConnectorSDK.Configuration;
-import LiltConnectorSDK.auth.*;
-import LiltConnectorSDK.models.*;
-import org.openapitools.client.api.JobsApi;
+import com.lilt.connectors.ApiClient;
+import com.lilt.connectors.ApiException;
+import com.lilt.connectors.Configuration;
+import com.lilt.connectors.auth.*;
+import com.lilt.connectors.models.*;
+import com.lilt.connectors.api.JobsApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -245,12 +245,12 @@ Retrieve a Connector Job.
 ### Example
 ```java
 // Import classes:
-import LiltConnectorSDK.ApiClient;
-import LiltConnectorSDK.ApiException;
-import LiltConnectorSDK.Configuration;
-import LiltConnectorSDK.auth.*;
-import LiltConnectorSDK.models.*;
-import org.openapitools.client.api.JobsApi;
+import com.lilt.connectors.ApiClient;
+import com.lilt.connectors.ApiException;
+import com.lilt.connectors.Configuration;
+import com.lilt.connectors.auth.*;
+import com.lilt.connectors.models.*;
+import com.lilt.connectors.api.JobsApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -315,12 +315,12 @@ Retrieve a list of Translations with their Job information.
 ### Example
 ```java
 // Import classes:
-import LiltConnectorSDK.ApiClient;
-import LiltConnectorSDK.ApiException;
-import LiltConnectorSDK.Configuration;
-import LiltConnectorSDK.auth.*;
-import LiltConnectorSDK.models.*;
-import org.openapitools.client.api.JobsApi;
+import com.lilt.connectors.ApiClient;
+import com.lilt.connectors.ApiException;
+import com.lilt.connectors.Configuration;
+import com.lilt.connectors.auth.*;
+import com.lilt.connectors.models.*;
+import com.lilt.connectors.api.JobsApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -394,12 +394,12 @@ Retrieve a list of Connector Jobs.
 ### Example
 ```java
 // Import classes:
-import LiltConnectorSDK.ApiClient;
-import LiltConnectorSDK.ApiException;
-import LiltConnectorSDK.Configuration;
-import LiltConnectorSDK.auth.*;
-import LiltConnectorSDK.models.*;
-import org.openapitools.client.api.JobsApi;
+import com.lilt.connectors.ApiClient;
+import com.lilt.connectors.ApiException;
+import com.lilt.connectors.Configuration;
+import com.lilt.connectors.auth.*;
+import com.lilt.connectors.models.*;
+import com.lilt.connectors.api.JobsApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -469,12 +469,12 @@ Start a job once all of the source files have been added. Use the Job ID to poll
 ### Example
 ```java
 // Import classes:
-import LiltConnectorSDK.ApiClient;
-import LiltConnectorSDK.ApiException;
-import LiltConnectorSDK.Configuration;
-import LiltConnectorSDK.auth.*;
-import LiltConnectorSDK.models.*;
-import org.openapitools.client.api.JobsApi;
+import com.lilt.connectors.ApiClient;
+import com.lilt.connectors.ApiException;
+import com.lilt.connectors.Configuration;
+import com.lilt.connectors.auth.*;
+import com.lilt.connectors.models.*;
+import com.lilt.connectors.api.JobsApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -540,12 +540,12 @@ Checks for updates to the translations. Use the Job ID to poll for successful co
 ### Example
 ```java
 // Import classes:
-import LiltConnectorSDK.ApiClient;
-import LiltConnectorSDK.ApiException;
-import LiltConnectorSDK.Configuration;
-import LiltConnectorSDK.auth.*;
-import LiltConnectorSDK.models.*;
-import org.openapitools.client.api.JobsApi;
+import com.lilt.connectors.ApiClient;
+import com.lilt.connectors.ApiException;
+import com.lilt.connectors.Configuration;
+import com.lilt.connectors.auth.*;
+import com.lilt.connectors.models.*;
+import com.lilt.connectors.api.JobsApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -611,12 +611,12 @@ Update a job to change the status or error message.
 ### Example
 ```java
 // Import classes:
-import LiltConnectorSDK.ApiClient;
-import LiltConnectorSDK.ApiException;
-import LiltConnectorSDK.Configuration;
-import LiltConnectorSDK.auth.*;
-import LiltConnectorSDK.models.*;
-import org.openapitools.client.api.JobsApi;
+import com.lilt.connectors.ApiClient;
+import com.lilt.connectors.ApiException;
+import com.lilt.connectors.Configuration;
+import com.lilt.connectors.auth.*;
+import com.lilt.connectors.models.*;
+import com.lilt.connectors.api.JobsApi;
 
 public class Example {
   public static void main(String[] args) {
