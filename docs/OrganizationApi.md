@@ -16,12 +16,12 @@ Get information about the organization based on lilt_token
 ### Example
 ```java
 // Import classes:
-import LiltConnectorSDK.ApiClient;
-import LiltConnectorSDK.ApiException;
-import LiltConnectorSDK.Configuration;
-import LiltConnectorSDK.auth.*;
-import LiltConnectorSDK.models.*;
-import org.openapitools.client.api.OrganizationApi;
+import com.lilt.connectors.ApiClient;
+import com.lilt.connectors.ApiException;
+import com.lilt.connectors.Configuration;
+import com.lilt.connectors.auth.*;
+import com.lilt.connectors.models.*;
+import com.lilt.connectors.api.OrganizationApi;
 
 public class Example {
   public static void main(String[] args) {

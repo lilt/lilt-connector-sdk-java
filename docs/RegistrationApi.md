@@ -18,11 +18,11 @@ This endpoint is used to register a connector organization in preparation to han
 ### Example
 ```java
 // Import classes:
-import LiltConnectorSDK.ApiClient;
-import LiltConnectorSDK.ApiException;
-import LiltConnectorSDK.Configuration;
-import LiltConnectorSDK.models.*;
-import org.openapitools.client.api.RegistrationApi;
+import com.lilt.connectors.ApiClient;
+import com.lilt.connectors.ApiException;
+import com.lilt.connectors.Configuration;
+import com.lilt.connectors.models.*;
+import com.lilt.connectors.api.RegistrationApi;
 
 public class Example {
   public static void main(String[] args) {

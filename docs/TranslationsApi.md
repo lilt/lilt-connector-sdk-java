@@ -22,12 +22,12 @@ Complete a Translation.
 ### Example
 ```java
 // Import classes:
-import LiltConnectorSDK.ApiClient;
-import LiltConnectorSDK.ApiException;
-import LiltConnectorSDK.Configuration;
-import LiltConnectorSDK.auth.*;
-import LiltConnectorSDK.models.*;
-import org.openapitools.client.api.TranslationsApi;
+import com.lilt.connectors.ApiClient;
+import com.lilt.connectors.ApiException;
+import com.lilt.connectors.Configuration;
+import com.lilt.connectors.auth.*;
+import com.lilt.connectors.models.*;
+import com.lilt.connectors.api.TranslationsApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -91,12 +91,12 @@ Download a Translation.
 ### Example
 ```java
 // Import classes:
-import LiltConnectorSDK.ApiClient;
-import LiltConnectorSDK.ApiException;
-import LiltConnectorSDK.Configuration;
-import LiltConnectorSDK.auth.*;
-import LiltConnectorSDK.models.*;
-import org.openapitools.client.api.TranslationsApi;
+import com.lilt.connectors.ApiClient;
+import com.lilt.connectors.ApiException;
+import com.lilt.connectors.Configuration;
+import com.lilt.connectors.auth.*;
+import com.lilt.connectors.models.*;
+import com.lilt.connectors.api.TranslationsApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -161,12 +161,12 @@ Download a Translation Source.
 ### Example
 ```java
 // Import classes:
-import LiltConnectorSDK.ApiClient;
-import LiltConnectorSDK.ApiException;
-import LiltConnectorSDK.Configuration;
-import LiltConnectorSDK.auth.*;
-import LiltConnectorSDK.models.*;
-import org.openapitools.client.api.TranslationsApi;
+import com.lilt.connectors.ApiClient;
+import com.lilt.connectors.ApiException;
+import com.lilt.connectors.Configuration;
+import com.lilt.connectors.auth.*;
+import com.lilt.connectors.models.*;
+import com.lilt.connectors.api.TranslationsApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -231,12 +231,12 @@ Retrieve a list of Translations.
 ### Example
 ```java
 // Import classes:
-import LiltConnectorSDK.ApiClient;
-import LiltConnectorSDK.ApiException;
-import LiltConnectorSDK.Configuration;
-import LiltConnectorSDK.auth.*;
-import LiltConnectorSDK.models.*;
-import org.openapitools.client.api.TranslationsApi;
+import com.lilt.connectors.ApiClient;
+import com.lilt.connectors.ApiException;
+import com.lilt.connectors.Configuration;
+import com.lilt.connectors.auth.*;
+import com.lilt.connectors.models.*;
+import com.lilt.connectors.api.TranslationsApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -305,12 +305,12 @@ Retrieve a Translation.
 ### Example
 ```java
 // Import classes:
-import LiltConnectorSDK.ApiClient;
-import LiltConnectorSDK.ApiException;
-import LiltConnectorSDK.Configuration;
-import LiltConnectorSDK.auth.*;
-import LiltConnectorSDK.models.*;
-import org.openapitools.client.api.TranslationsApi;
+import com.lilt.connectors.ApiClient;
+import com.lilt.connectors.ApiException;
+import com.lilt.connectors.Configuration;
+import com.lilt.connectors.auth.*;
+import com.lilt.connectors.models.*;
+import com.lilt.connectors.api.TranslationsApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -375,12 +375,12 @@ Get a Translation&#39;s source to target mapping.
 ### Example
 ```java
 // Import classes:
-import LiltConnectorSDK.ApiClient;
-import LiltConnectorSDK.ApiException;
-import LiltConnectorSDK.Configuration;
-import LiltConnectorSDK.auth.*;
-import LiltConnectorSDK.models.*;
-import org.openapitools.client.api.TranslationsApi;
+import com.lilt.connectors.ApiClient;
+import com.lilt.connectors.ApiException;
+import com.lilt.connectors.Configuration;
+import com.lilt.connectors.auth.*;
+import com.lilt.connectors.models.*;
+import com.lilt.connectors.api.TranslationsApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -445,12 +445,12 @@ Update a Translation.
 ### Example
 ```java
 // Import classes:
-import LiltConnectorSDK.ApiClient;
-import LiltConnectorSDK.ApiException;
-import LiltConnectorSDK.Configuration;
-import LiltConnectorSDK.auth.*;
-import LiltConnectorSDK.models.*;
-import org.openapitools.client.api.TranslationsApi;
+import com.lilt.connectors.ApiClient;
+import com.lilt.connectors.ApiException;
+import com.lilt.connectors.Configuration;
+import com.lilt.connectors.auth.*;
+import com.lilt.connectors.models.*;
+import com.lilt.connectors.api.TranslationsApi;
 
 public class Example {
   public static void main(String[] args) {

@@ -17,12 +17,12 @@ Retrieve the settings.
 ### Example
 ```java
 // Import classes:
-import LiltConnectorSDK.ApiClient;
-import LiltConnectorSDK.ApiException;
-import LiltConnectorSDK.Configuration;
-import LiltConnectorSDK.auth.*;
-import LiltConnectorSDK.models.*;
-import org.openapitools.client.api.SettingsApi;
+import com.lilt.connectors.ApiClient;
+import com.lilt.connectors.ApiException;
+import com.lilt.connectors.Configuration;
+import com.lilt.connectors.auth.*;
+import com.lilt.connectors.models.*;
+import com.lilt.connectors.api.SettingsApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -82,12 +82,12 @@ Update the settings.
 ### Example
 ```java
 // Import classes:
-import LiltConnectorSDK.ApiClient;
-import LiltConnectorSDK.ApiException;
-import LiltConnectorSDK.Configuration;
-import LiltConnectorSDK.auth.*;
-import LiltConnectorSDK.models.*;
-import org.openapitools.client.api.SettingsApi;
+import com.lilt.connectors.ApiClient;
+import com.lilt.connectors.ApiException;
+import com.lilt.connectors.Configuration;
+import com.lilt.connectors.auth.*;
+import com.lilt.connectors.models.*;
+import com.lilt.connectors.api.SettingsApi;
 
 public class Example {
   public static void main(String[] args) {

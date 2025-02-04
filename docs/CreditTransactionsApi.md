@@ -16,11 +16,11 @@ Create a credit transaction. Request is expected to contain credits information 
 ### Example
 ```java
 // Import classes:
-import LiltConnectorSDK.ApiClient;
-import LiltConnectorSDK.ApiException;
-import LiltConnectorSDK.Configuration;
-import LiltConnectorSDK.models.*;
-import org.openapitools.client.api.CreditTransactionsApi;
+import com.lilt.connectors.ApiClient;
+import com.lilt.connectors.ApiException;
+import com.lilt.connectors.Configuration;
+import com.lilt.connectors.models.*;
+import com.lilt.connectors.api.CreditTransactionsApi;
 
 public class Example {
   public static void main(String[] args) {
