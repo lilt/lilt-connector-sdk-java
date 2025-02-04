@@ -41,7 +41,7 @@
         <repository>
             <id>github</id>
             <name>Lilt packages on GitHub</name>
-            <url>https://maven.pkg.github.com/lilt/lilt-java</url>
+            <url>https://maven.pkg.github.com/lilt/lilt-connector-sdk-java</url>
         </repository>
     </distributionManagement>
 
